@@ -1,5 +1,10 @@
 'use strict';
 
+const dom = {
+	output: document.querySelector('.js-output'),
+	numbers: document.querySelectorAll('.js-number'),
+};
+
 function add(a, b) {
 	return a + b;
 }
@@ -28,3 +33,18 @@ function operate(a, b, operator) {
 			return divide(a, b);
 	}
 }
+
+function handleNumberClick(event) {
+	const output = dom.output;
+	const value = event.target.dataset.value;
+
+	if (output.textContent === '0') {
+		output.textContent = value;
+	} else {
+		output.textContent += value;
+	}
+}
+
+dom.numbers.forEach((number) =>
+	number.addEventListener('click', handleNumberClick)
+);
