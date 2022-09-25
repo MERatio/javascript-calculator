@@ -67,6 +67,11 @@ body {
 
 .output-container {
 	overflow: hidden;
+	display: flex;
+	/* So we always see the left part of output when the
+	 	 right part of output reaches the left side of the screen. 
+	*/
+	justify-content: flex-end;
 }
 
 .output {
