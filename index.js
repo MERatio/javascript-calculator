@@ -2,7 +2,7 @@
 
 const dom = {
 	displayValue: document.querySelector('.js-display-value'),
-	clear: document.querySelector('.js-clear'),
+	allClear: document.querySelector('.js-all-clear'),
 	numbers: document.querySelectorAll('.js-number'),
 	operators: document.querySelectorAll('.js-operator'),
 	equal: document.querySelector('.js-equal'),
@@ -66,7 +66,7 @@ function operate(a, b, operator) {
 	}
 }
 
-function handleClearClick() {
+function handleAllClearClick() {
 	firstOperand = null;
 	setAndActivateOperator(null);
 	isStartingANumber = true;
@@ -152,7 +152,7 @@ function handleEqualClick(event) {
 	setAndActivateOperator(null);
 }
 
-dom.clear.addEventListener('click', handleClearClick);
+dom.allClear.addEventListener('click', handleAllClearClick);
 
 dom.numbers.forEach((domNumber) =>
 	domNumber.addEventListener('click', handleNumberClick)
