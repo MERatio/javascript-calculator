@@ -102,11 +102,11 @@ body {
 	cursor: pointer;
 }
 
-.key:hover {
+.key:hover:enabled {
 	transform: scale(0.98);
 }
 
-.key:active {
+.key:active:enabled {
 	transform: scale(0.9);
 }
 
