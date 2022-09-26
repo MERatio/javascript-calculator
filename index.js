@@ -8,10 +8,10 @@ const dom = {
 	equal: document.querySelector('.js-equal'),
 };
 
-let displayValue = '0';
 let firstOperand = null;
 let operator = null;
-let isComposingNumber = false;
+let isStartingANumber = true;
+let haveAns = false;
 
 function roundTo2DecimalPlace(num) {
 	return Math.round((num + Number.EPSILON) * 100) / 100;
@@ -25,13 +25,13 @@ function deactiveOperators() {
 	});
 }
 
-function setAndActivateOperator(operatorValue) {
+function setAndActivateOperator(newOperator) {
+	operator = newOperator;
+
 	deactiveOperators();
 
-	operator = operatorValue;
-
 	dom.operators.forEach((domOperator) => {
-		if (domOperator.dataset.value === operatorValue) {
+		if (domOperator.dataset.value === newOperator) {
 			domOperator.classList.add('key-operator-active');
 		}
 	});
@@ -67,46 +67,42 @@ function operate(a, b, operator) {
 }
 
 function handleClearClick() {
-	displayValue = '0';
 	firstOperand = null;
-	operator = null;
-	isComposingNumber = false;
-	dom.displayValue.textContent = displayValue;
-	deactiveOperators();
+	setAndActivateOperator(null);
+	isStartingANumber = true;
+	haveAns = false;
+	dom.displayValue.textContent = '0';
 }
 
 function handleNumberClick(event) {
-	const value = event.target.dataset.value;
+	const newStrNum = event.target.dataset.value;
 
-	if (displayValue === '0' || isComposingNumber) {
-		displayValue = value;
-		isComposingNumber = false;
+	if (isStartingANumber) {
+		dom.displayValue.textContent = newStrNum;
+		isStartingANumber = false;
 	} else {
-		displayValue += value;
+		dom.displayValue.textContent += newStrNum;
 	}
-
-	dom.displayValue.textContent = displayValue;
 }
 
 function handleOperatorClick(event) {
+	const displayValue = dom.displayValue.textContent;
+
 	if (displayValue === '-' || displayValue === 'ERROR') {
 		return;
 	}
 
-	const value = event.target.dataset.value;
+	const newOperator = event.target.dataset.value;
 
-	if (value === '-' && displayValue !== '-') {
-		if (displayValue === '0' || isComposingNumber) {
-			displayValue = '-';
-			dom.displayValue.textContent = displayValue;
-			isComposingNumber = false;
-			return;
-		}
+	if (newOperator === '-' && isStartingANumber && !haveAns) {
+		dom.displayValue.textContent = '-';
+		isStartingANumber = false;
+		return;
 	}
 
 	if (operator === null) {
 		firstOperand = displayValue;
-		setAndActivateOperator(value);
+		setAndActivateOperator(newOperator);
 	} else {
 		const operationResult = operate(
 			parseFloat(firstOperand),
@@ -117,21 +113,22 @@ function handleOperatorClick(event) {
 		if (Number.isFinite(operationResult)) {
 			const roundedOperationResult = roundTo2DecimalPlace(operationResult);
 			firstOperand = roundedOperationResult;
-			setAndActivateOperator(value);
-			displayValue = roundedOperationResult;
+			setAndActivateOperator(newOperator);
+			dom.displayValue.textContent = roundedOperationResult;
 		} else {
 			firstOperand = null;
 			setAndActivateOperator(null);
-			displayValue = 'ERROR';
+			dom.displayValue.textContent = 'ERROR';
 		}
-
-		dom.displayValue.textContent = displayValue;
 	}
 
-	isComposingNumber = true;
+	isStartingANumber = true;
+	haveAns = false;
 }
 
 function handleEqualClick(event) {
+	const displayValue = dom.displayValue.textContent;
+
 	if (operator === null || displayValue === 'ERROR') {
 		return;
 	}
@@ -145,15 +142,14 @@ function handleEqualClick(event) {
 	if (Number.isFinite(operationResult)) {
 		const roundedOperationResult = roundTo2DecimalPlace(operationResult);
 		firstOperand = roundedOperationResult;
-		displayValue = roundedOperationResult;
+		dom.displayValue.textContent = roundedOperationResult;
 	} else {
 		firstOperand = null;
-		displayValue = 'ERROR';
+		dom.displayValue.textContent = 'ERROR';
 	}
 
+	haveAns = true;
 	setAndActivateOperator(null);
-	dom.displayValue.textContent = displayValue;
-	isComposingNumber = true;
 }
 
 dom.clear.addEventListener('click', handleClearClick);
