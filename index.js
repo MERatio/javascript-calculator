@@ -105,7 +105,7 @@ function handleClearEntryClick() {
 function handleNumberClick(event) {
 	const newStrNum = event.target.dataset.value;
 
-	if (isStartingANumber) {
+	if (isStartingANumber || dom.displayValue.textContent === '0') {
 		dom.displayValue.textContent = newStrNum;
 		isStartingANumber = false;
 	} else {
