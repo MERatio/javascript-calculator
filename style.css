@@ -130,6 +130,10 @@ body {
 	grid-row: span 2;
 }
 
+.key-operator-active {
+	filter: brightness(1.8);
+}
+
 @media screen and (max-width: 349px), screen and (max-height: 459px) {
 	.calculator {
 		transform: scale(0.6);
