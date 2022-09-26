@@ -7,12 +7,21 @@ const dom = {
 	numbers: document.querySelectorAll('.js-number'),
 	operators: document.querySelectorAll('.js-operator'),
 	equal: document.querySelector('.js-equal'),
+	decimalPoint: document.querySelector('.js-decimal-point'),
 };
 
 let firstOperand = null;
 let operator = null;
 let isStartingANumber = true;
 let haveAns = false;
+
+function determineDecimalPointDisabledAttr() {
+	if (dom.displayValue.textContent.includes('.')) {
+		dom.decimalPoint.setAttribute('disabled', '');
+	} else {
+		dom.decimalPoint.removeAttribute('disabled');
+	}
+}
 
 function roundTo2DecimalPlace(num) {
 	return Math.round((num + Number.EPSILON) * 100) / 100;
@@ -73,6 +82,7 @@ function reset() {
 	isStartingANumber = true;
 	haveAns = false;
 	dom.displayValue.textContent = '0';
+	dom.decimalPoint.removeAttribute('disabled');
 }
 
 function handleAllClearClick() {
@@ -81,25 +91,26 @@ function handleAllClearClick() {
 
 function handleBackspaceClick() {
 	const displayValue = dom.displayValue.textContent;
-	switch (displayValue) {
-		case '0':
-			break;
-		case '-':
+	if (displayValue === '0') {
+	} else if (displayValue === '-') {
+		dom.displayValue.textContent = '0';
+		isStartingANumber = true;
+	} else if (displayValue === 'ERROR') {
+		reset();
+	} else if (displayValue.slice(-1) === '.') {
+		const newDisplayValue = displayValue.slice(0, -1);
+		dom.displayValue.textContent = newDisplayValue;
+	} else {
+		const newDisplayValue = displayValue.slice(0, -1);
+		if (newDisplayValue === '') {
 			dom.displayValue.textContent = '0';
 			isStartingANumber = true;
-			break;
-		case 'ERROR':
-			reset();
-			break;
-		default:
-			const newDisplayValue = displayValue.slice(0, -1);
-			if (newDisplayValue === '') {
-				dom.displayValue.textContent = '0';
-				isStartingANumber = true;
-			} else {
-				dom.displayValue.textContent = newDisplayValue;
-			}
+		} else {
+			dom.displayValue.textContent = newDisplayValue;
+		}
 	}
+
+	determineDecimalPointDisabledAttr();
 }
 
 function handleNumberClick(event) {
@@ -111,6 +122,8 @@ function handleNumberClick(event) {
 	} else {
 		dom.displayValue.textContent += newStrNum;
 	}
+
+	determineDecimalPointDisabledAttr();
 }
 
 function handleOperatorClick(event) {
@@ -152,6 +165,7 @@ function handleOperatorClick(event) {
 
 	isStartingANumber = true;
 	haveAns = false;
+	determineDecimalPointDisabledAttr();
 }
 
 function handleEqualClick(event) {
@@ -178,6 +192,23 @@ function handleEqualClick(event) {
 
 	haveAns = true;
 	setAndActivateOperator(null);
+	determineDecimalPointDisabledAttr();
+}
+
+function handleDecimalPointClick() {
+	const displayValue = dom.displayValue.textContent;
+
+	if (displayValue.includes('.')) {
+		return;
+	}
+
+	if (displayValue === '0' || displayValue === '-' || haveAns) {
+		dom.displayValue.textContent = '0.';
+	} else {
+		dom.displayValue.textContent += '.';
+	}
+
+	determineDecimalPointDisabledAttr();
 }
 
 dom.allClear.addEventListener('click', handleAllClearClick);
@@ -193,3 +224,5 @@ dom.operators.forEach((domOperator) =>
 );
 
 dom.equal.addEventListener('click', handleEqualClick);
+
+dom.decimalPoint.addEventListener('click', handleDecimalPointClick);

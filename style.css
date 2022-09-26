@@ -138,6 +138,10 @@ body {
 	filter: brightness(1.8);
 }
 
+.key-decimal-point:disabled {
+	opacity: 0.7;
+}
+
 @media screen and (max-width: 349px), screen and (max-height: 459px) {
 	.calculator {
 		transform: scale(0.6);
