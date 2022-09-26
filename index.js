@@ -137,12 +137,12 @@ function handleEqualClick(event) {
 	isStartingSecondOperand = true;
 }
 
-dom.numbers.forEach((number) =>
-	number.addEventListener('click', handleNumberClick)
+dom.numbers.forEach((domNumber) =>
+	domNumber.addEventListener('click', handleNumberClick)
 );
 
-dom.operators.forEach((operator) =>
-	operator.addEventListener('click', handleOperatorClick)
+dom.operators.forEach((domOperator) =>
+	domOperator.addEventListener('click', handleOperatorClick)
 );
 
 dom.equal.addEventListener('click', handleEqualClick);
