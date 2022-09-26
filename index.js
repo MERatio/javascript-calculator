@@ -11,7 +11,7 @@ const dom = {
 let displayValue = '0';
 let firstOperand = null;
 let operator = null;
-let isStartingSecondOperand = false;
+let isComposingNumber = false;
 
 function roundTo2DecimalPlace(num) {
 	return Math.round((num + Number.EPSILON) * 100) / 100;
@@ -70,7 +70,7 @@ function handleClearClick() {
 	displayValue = '0';
 	firstOperand = null;
 	operator = null;
-	isStartingSecondOperand = false;
+	isComposingNumber = false;
 	dom.displayValue.textContent = displayValue;
 	deactiveOperators();
 }
@@ -78,9 +78,9 @@ function handleClearClick() {
 function handleNumberClick(event) {
 	const value = event.target.dataset.value;
 
-	if (displayValue === '0' || isStartingSecondOperand) {
+	if (displayValue === '0' || isComposingNumber) {
 		displayValue = value;
-		isStartingSecondOperand = false;
+		isComposingNumber = false;
 	} else {
 		displayValue += value;
 	}
@@ -96,10 +96,10 @@ function handleOperatorClick(event) {
 	const value = event.target.dataset.value;
 
 	if (value === '-' && displayValue !== '-') {
-		if (displayValue === '0' || isStartingSecondOperand) {
+		if (displayValue === '0' || isComposingNumber) {
 			displayValue = '-';
 			dom.displayValue.textContent = displayValue;
-			isStartingSecondOperand = false;
+			isComposingNumber = false;
 			return;
 		}
 	}
@@ -128,7 +128,7 @@ function handleOperatorClick(event) {
 		dom.displayValue.textContent = displayValue;
 	}
 
-	isStartingSecondOperand = true;
+	isComposingNumber = true;
 }
 
 function handleEqualClick(event) {
@@ -153,7 +153,7 @@ function handleEqualClick(event) {
 
 	setAndActivateOperator(null);
 	dom.displayValue.textContent = displayValue;
-	isStartingSecondOperand = true;
+	isComposingNumber = true;
 }
 
 dom.clear.addEventListener('click', handleClearClick);
