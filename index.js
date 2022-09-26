@@ -1,11 +1,11 @@
 'use strict';
 
 const dom = {
-	output: document.querySelector('.js-output'),
+	displayValue: document.querySelector('.js-display-value'),
 	numbers: document.querySelectorAll('.js-number'),
 };
 
-let output = '0';
+let displayValue = '0';
 
 function add(a, b) {
 	return a + b;
@@ -39,13 +39,13 @@ function operate(a, b, operator) {
 function handleNumberClick(event) {
 	const value = event.target.dataset.value;
 
-	if (output === '0') {
-		output = value;
+	if (displayValue === '0') {
+		displayValue = value;
 	} else {
-		output += value;
+		displayValue += value;
 	}
 
-	dom.output.textContent = output;
+	dom.displayValue.textContent = displayValue;
 }
 
 dom.numbers.forEach((number) =>

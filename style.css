@@ -6,7 +6,7 @@
 :root {
 	--color-calculator-body: #24261d;
 	--color-screen: #322e2a;
-	--color-output: #b9fdfb;
+	--color-display-value: #b9fdfb;
 	--color-keys-container: #bea493;
 	--color-key-text: #ddcbbf;
 	--color-key-red: #e4312a;
@@ -65,19 +65,19 @@ body {
 	align-items: center;
 }
 
-.output-container {
+.display-value-container {
 	overflow: hidden;
 	display: flex;
-	/* So we always see the left part of output when the
-	 	 right part of output reaches the left side of the screen. 
+	/* So we always see the left part of display value when the right part 
+		 of display value reaches the left side of the display value container. 
 	*/
 	justify-content: flex-end;
 }
 
-.output {
+.display-value {
 	font-family: 'DS-DIGIB';
 	font-size: 28px;
-	color: var(--color-output);
+	color: var(--color-display-value);
 	text-shadow: 0px 0px 5px #29c9cd;
 }
 
