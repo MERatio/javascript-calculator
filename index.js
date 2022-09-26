@@ -2,6 +2,7 @@
 
 const dom = {
 	displayValue: document.querySelector('.js-display-value'),
+	clear: document.querySelector('.js-clear'),
 	numbers: document.querySelectorAll('.js-number'),
 	operators: document.querySelectorAll('.js-operator'),
 	equal: document.querySelector('.js-equal'),
@@ -63,6 +64,15 @@ function operate(a, b, operator) {
 		case '/':
 			return divide(a, b);
 	}
+}
+
+function handleClearClick() {
+	displayValue = '0';
+	firstOperand = null;
+	operator = null;
+	isStartingSecondOperand = false;
+	dom.displayValue.textContent = displayValue;
+	deactiveOperators();
 }
 
 function handleNumberClick(event) {
@@ -136,6 +146,8 @@ function handleEqualClick(event) {
 	dom.displayValue.textContent = displayValue;
 	isStartingSecondOperand = true;
 }
+
+dom.clear.addEventListener('click', handleClearClick);
 
 dom.numbers.forEach((domNumber) =>
 	domNumber.addEventListener('click', handleNumberClick)
