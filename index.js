@@ -89,11 +89,20 @@ function handleNumberClick(event) {
 }
 
 function handleOperatorClick(event) {
-	if (displayValue === 'ERROR') {
+	if (displayValue === '-' || displayValue === 'ERROR') {
 		return;
 	}
 
 	const value = event.target.dataset.value;
+
+	if (value === '-' && displayValue !== '-') {
+		if (displayValue === '0' || isStartingSecondOperand) {
+			displayValue = '-';
+			dom.displayValue.textContent = displayValue;
+			isStartingSecondOperand = false;
+			return;
+		}
+	}
 
 	if (operator === null) {
 		firstOperand = displayValue;
