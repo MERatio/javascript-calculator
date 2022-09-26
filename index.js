@@ -3,7 +3,7 @@
 const dom = {
 	displayValue: document.querySelector('.js-display-value'),
 	allClear: document.querySelector('.js-all-clear'),
-	clearEntry: document.querySelector('.js-clear-entry'),
+	backspace: document.querySelector('.js-backspace'),
 	numbers: document.querySelectorAll('.js-number'),
 	operators: document.querySelectorAll('.js-operator'),
 	equal: document.querySelector('.js-equal'),
@@ -79,7 +79,7 @@ function handleAllClearClick() {
 	reset();
 }
 
-function handleClearEntryClick() {
+function handleBackspaceClick() {
 	const displayValue = dom.displayValue.textContent;
 	switch (displayValue) {
 		case '0':
@@ -182,7 +182,7 @@ function handleEqualClick(event) {
 
 dom.allClear.addEventListener('click', handleAllClearClick);
 
-dom.clearEntry.addEventListener('click', handleClearEntryClick);
+dom.backspace.addEventListener('click', handleBackspaceClick);
 
 dom.numbers.forEach((domNumber) =>
 	domNumber.addEventListener('click', handleNumberClick)
