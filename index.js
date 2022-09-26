@@ -5,6 +5,8 @@ const dom = {
 	numbers: document.querySelectorAll('.js-number'),
 };
 
+let output = '0';
+
 function add(a, b) {
 	return a + b;
 }
@@ -35,14 +37,15 @@ function operate(a, b, operator) {
 }
 
 function handleNumberClick(event) {
-	const output = dom.output;
 	const value = event.target.dataset.value;
 
-	if (output.textContent === '0') {
-		output.textContent = value;
+	if (output === '0') {
+		output = value;
 	} else {
-		output.textContent += value;
+		output += value;
 	}
+
+	dom.output.textContent = output;
 }
 
 dom.numbers.forEach((number) =>
