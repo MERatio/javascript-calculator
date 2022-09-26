@@ -122,6 +122,10 @@ body {
 	background-color: var(--color-key-black);
 }
 
+.key-ac {
+	font-size: 24px;
+}
+
 .key-zero {
 	grid-column: span 2;
 }
