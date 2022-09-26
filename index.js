@@ -3,6 +3,7 @@
 const dom = {
 	displayValue: document.querySelector('.js-display-value'),
 	allClear: document.querySelector('.js-all-clear'),
+	clearEntry: document.querySelector('.js-clear-entry'),
 	numbers: document.querySelectorAll('.js-number'),
 	operators: document.querySelectorAll('.js-operator'),
 	equal: document.querySelector('.js-equal'),
@@ -66,12 +67,39 @@ function operate(a, b, operator) {
 	}
 }
 
-function handleAllClearClick() {
+function reset() {
 	firstOperand = null;
 	setAndActivateOperator(null);
 	isStartingANumber = true;
 	haveAns = false;
 	dom.displayValue.textContent = '0';
+}
+
+function handleAllClearClick() {
+	reset();
+}
+
+function handleClearEntryClick() {
+	const displayValue = dom.displayValue.textContent;
+	switch (displayValue) {
+		case '0':
+			break;
+		case '-':
+			dom.displayValue.textContent = '0';
+			isStartingANumber = true;
+			break;
+		case 'ERROR':
+			reset();
+			break;
+		default:
+			const newDisplayValue = displayValue.slice(0, -1);
+			if (newDisplayValue === '') {
+				dom.displayValue.textContent = '0';
+				isStartingANumber = true;
+			} else {
+				dom.displayValue.textContent = newDisplayValue;
+			}
+	}
 }
 
 function handleNumberClick(event) {
@@ -153,6 +181,8 @@ function handleEqualClick(event) {
 }
 
 dom.allClear.addEventListener('click', handleAllClearClick);
+
+dom.clearEntry.addEventListener('click', handleClearEntryClick);
 
 dom.numbers.forEach((domNumber) =>
 	domNumber.addEventListener('click', handleNumberClick)
