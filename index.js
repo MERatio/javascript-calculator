@@ -98,8 +98,7 @@ function handleBackspaceClick() {
 	} else if (displayValue === 'ERROR') {
 		reset();
 	} else if (displayValue.slice(-1) === '.') {
-		const newDisplayValue = displayValue.slice(0, -1);
-		dom.displayValue.textContent = newDisplayValue;
+		dom.displayValue.textContent = displayValue.slice(0, -1);
 		dom.decimalPoint.removeAttribute('disabled');
 	} else {
 		const newDisplayValue = displayValue.slice(0, -1);
@@ -116,8 +115,8 @@ function handleNumberClick(event) {
 	const newStrNum = event.target.dataset.value;
 
 	if (isStartingANumber || dom.displayValue.textContent === '0') {
-		dom.displayValue.textContent = newStrNum;
 		isStartingANumber = false;
+		dom.displayValue.textContent = newStrNum;
 	} else {
 		dom.displayValue.textContent += newStrNum;
 	}
@@ -183,14 +182,13 @@ function handleEqualClick(event) {
 		const roundedOperationResult = roundTo2DecimalPlace(operationResult);
 		firstOperand = roundedOperationResult;
 		dom.displayValue.textContent = roundedOperationResult;
+		isStartingANumber = true;
+		setAndActivateOperator(null);
+		determineDecimalPointDisabledAttr();
 	} else {
-		firstOperand = null;
+		reset();
 		dom.displayValue.textContent = 'ERROR';
 	}
-
-	isStartingANumber = true;
-	setAndActivateOperator(null);
-	determineDecimalPointDisabledAttr();
 }
 
 function handleDecimalPointClick() {
@@ -200,11 +198,11 @@ function handleDecimalPointClick() {
 		dom.displayValue.textContent = '-0.';
 	} else if (isStartingANumber || displayValue === '0') {
 		dom.displayValue.textContent = '0.';
-		isStartingANumber = false;
 	} else {
 		dom.displayValue.textContent += '.';
 	}
 
+	isStartingANumber = false;
 	dom.decimalPoint.setAttribute('disabled', '');
 }
 
