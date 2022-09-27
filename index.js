@@ -139,6 +139,7 @@ function handleOperatorClick(event) {
 	if (operator === null) {
 		firstOperand = displayValue;
 		setAndActivateOperator(newOperator);
+		dom.decimalPoint.removeAttribute('disabled');
 	} else {
 		const operationResult = operate(
 			parseFloat(firstOperand),
@@ -192,10 +193,6 @@ function handleEqualClick(event) {
 
 function handleDecimalPointClick() {
 	const displayValue = dom.displayValue.textContent;
-
-	if (displayValue.includes('.')) {
-		return;
-	}
 
 	if (isStartingANumber || displayValue === '0' || displayValue === '-') {
 		dom.displayValue.textContent = '0.';
