@@ -13,7 +13,6 @@ const dom = {
 let firstOperand = null;
 let operator = null;
 let isStartingANumber = true;
-let haveAns = false;
 
 function determineDecimalPointDisabledAttr() {
 	if (dom.displayValue.textContent.includes('.')) {
@@ -80,7 +79,6 @@ function reset() {
 	firstOperand = null;
 	setAndActivateOperator(null);
 	isStartingANumber = true;
-	haveAns = false;
 	dom.displayValue.textContent = '0';
 	dom.decimalPoint.removeAttribute('disabled');
 }
@@ -115,10 +113,9 @@ function handleBackspaceClick() {
 function handleNumberClick(event) {
 	const newStrNum = event.target.dataset.value;
 
-	if (isStartingANumber || dom.displayValue.textContent === '0' || haveAns) {
+	if (isStartingANumber || dom.displayValue.textContent === '0') {
 		dom.displayValue.textContent = newStrNum;
 		isStartingANumber = false;
-		haveAns = false;
 	} else {
 		dom.displayValue.textContent += newStrNum;
 	}
@@ -133,7 +130,7 @@ function handleOperatorClick(event) {
 
 	const newOperator = event.target.dataset.value;
 
-	if (newOperator === '-' && isStartingANumber && !haveAns) {
+	if (newOperator === '-' && isStartingANumber) {
 		dom.displayValue.textContent = '-';
 		isStartingANumber = false;
 		return;
@@ -164,7 +161,6 @@ function handleOperatorClick(event) {
 	}
 
 	isStartingANumber = true;
-	haveAns = false;
 }
 
 function handleEqualClick(event) {
@@ -189,7 +185,7 @@ function handleEqualClick(event) {
 		dom.displayValue.textContent = 'ERROR';
 	}
 
-	haveAns = true;
+	isStartingANumber = true;
 	setAndActivateOperator(null);
 	determineDecimalPointDisabledAttr();
 }
@@ -201,8 +197,9 @@ function handleDecimalPointClick() {
 		return;
 	}
 
-	if (displayValue === '0' || displayValue === '-' || haveAns) {
+	if (isStartingANumber || displayValue === '0' || displayValue === '-') {
 		dom.displayValue.textContent = '0.';
+		isStartingANumber = false;
 	} else {
 		dom.displayValue.textContent += '.';
 	}
