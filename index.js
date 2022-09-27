@@ -89,7 +89,9 @@ function handleAllClearClick() {
 
 function handleBackspaceClick() {
 	const displayValue = dom.displayValue.textContent;
-	if (displayValue === '0') {
+	if (isStartingANumber) {
+		dom.displayValue.textContent = '0';
+	} else if (displayValue === '0') {
 	} else if (displayValue === '-') {
 		dom.displayValue.textContent = '0';
 		isStartingANumber = true;
