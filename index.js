@@ -208,6 +208,13 @@ function handleDecimalPointClick() {
 	dom.decimalPoint.setAttribute('disabled', '');
 }
 
+function handleWindowKeydown(event) {
+	const domKey = document.querySelector(`.key[data-key="${event.key}"]`);
+	if (domKey) {
+		domKey.click();
+	}
+}
+
 dom.allClear.addEventListener('click', handleAllClearClick);
 
 dom.backspace.addEventListener('click', handleBackspaceClick);
@@ -223,3 +230,5 @@ dom.operators.forEach((domOperator) =>
 dom.equal.addEventListener('click', handleEqualClick);
 
 dom.decimalPoint.addEventListener('click', handleDecimalPointClick);
+
+window.addEventListener('keydown', handleWindowKeydown);
