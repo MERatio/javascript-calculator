@@ -40,7 +40,7 @@ function setAndActivateOperator(newOperator) {
 	deactiveOperators();
 
 	dom.operators.forEach((domOperator) => {
-		if (domOperator.dataset.value === newOperator) {
+		if (domOperator.dataset.key === newOperator) {
 			domOperator.classList.add('key-operator-active');
 		}
 	});
@@ -113,7 +113,7 @@ function handleBackspaceClick() {
 }
 
 function handleNumberClick(event) {
-	const newStrNum = event.target.dataset.value;
+	const newStrNum = event.target.dataset.key;
 
 	if (isStartingANumber || dom.displayValue.textContent === '0') {
 		isStartingANumber = false;
@@ -130,7 +130,7 @@ function handleOperatorClick(event) {
 		return;
 	}
 
-	const newOperator = event.target.dataset.value;
+	const newOperator = event.target.dataset.key;
 
 	if (newOperator === '-' && isStartingANumber) {
 		dom.displayValue.textContent = '-';
