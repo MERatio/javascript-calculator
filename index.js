@@ -91,6 +91,7 @@ function handleBackspaceClick() {
 	const displayValue = dom.displayValue.textContent;
 	if (isStartingANumber) {
 		dom.displayValue.textContent = '0';
+		dom.decimalPoint.removeAttribute('disabled');
 	} else if (displayValue === '0') {
 	} else if (displayValue === '-') {
 		dom.displayValue.textContent = '0';
