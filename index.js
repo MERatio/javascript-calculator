@@ -118,6 +118,7 @@ function handleNumberClick(event) {
 	if (isStartingANumber || dom.displayValue.textContent === '0') {
 		isStartingANumber = false;
 		dom.displayValue.textContent = newStrNum;
+		dom.decimalPoint.removeAttribute('disabled');
 	} else {
 		dom.displayValue.textContent += newStrNum;
 	}
