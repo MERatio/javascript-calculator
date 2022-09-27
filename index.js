@@ -196,7 +196,9 @@ function handleEqualClick(event) {
 function handleDecimalPointClick() {
 	const displayValue = dom.displayValue.textContent;
 
-	if (isStartingANumber || displayValue === '0' || displayValue === '-') {
+	if (displayValue === '-') {
+		dom.displayValue.textContent = '-0.';
+	} else if (isStartingANumber || displayValue === '0') {
 		dom.displayValue.textContent = '0.';
 		isStartingANumber = false;
 	} else {
