@@ -100,6 +100,7 @@ function handleBackspaceClick() {
 	} else if (displayValue.slice(-1) === '.') {
 		const newDisplayValue = displayValue.slice(0, -1);
 		dom.displayValue.textContent = newDisplayValue;
+		dom.decimalPoint.removeAttribute('disabled');
 	} else {
 		const newDisplayValue = displayValue.slice(0, -1);
 		if (newDisplayValue === '') {
@@ -109,8 +110,6 @@ function handleBackspaceClick() {
 			dom.displayValue.textContent = newDisplayValue;
 		}
 	}
-
-	determineDecimalPointDisabledAttr();
 }
 
 function handleNumberClick(event) {
@@ -122,8 +121,6 @@ function handleNumberClick(event) {
 	} else {
 		dom.displayValue.textContent += newStrNum;
 	}
-
-	determineDecimalPointDisabledAttr();
 }
 
 function handleOperatorClick(event) {
@@ -161,11 +158,12 @@ function handleOperatorClick(event) {
 			setAndActivateOperator(null);
 			dom.displayValue.textContent = 'ERROR';
 		}
+
+		determineDecimalPointDisabledAttr();
 	}
 
 	isStartingANumber = true;
 	haveAns = false;
-	determineDecimalPointDisabledAttr();
 }
 
 function handleEqualClick(event) {
@@ -208,7 +206,7 @@ function handleDecimalPointClick() {
 		dom.displayValue.textContent += '.';
 	}
 
-	determineDecimalPointDisabledAttr();
+	dom.decimalPoint.setAttribute('disabled', '');
 }
 
 dom.allClear.addEventListener('click', handleAllClearClick);
