@@ -115,9 +115,10 @@ function handleBackspaceClick() {
 function handleNumberClick(event) {
 	const newStrNum = event.target.dataset.value;
 
-	if (isStartingANumber || dom.displayValue.textContent === '0') {
+	if (isStartingANumber || dom.displayValue.textContent === '0' || haveAns) {
 		dom.displayValue.textContent = newStrNum;
 		isStartingANumber = false;
+		haveAns = false;
 	} else {
 		dom.displayValue.textContent += newStrNum;
 	}
