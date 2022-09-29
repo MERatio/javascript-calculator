@@ -8,7 +8,7 @@ A web calculator that does basic math operations.
   - Add
   - Subtract
   - Multiply
-  - Divde
+  - Divide
 - Only evaluate single pair of numbers at a time
 - Supports Negative number
 - Supports Decimal point
