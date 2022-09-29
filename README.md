@@ -19,6 +19,8 @@ A web calculator that does basic math operations.
 ## Acknowledgements
 
 - For more information visit [The Odin Project's web page about this project](https://www.theodinproject.com/lessons/foundations-calculator).
+- [DaFont's DS-Digital font](https://www.dafont.com/ds-digital.font)
+- [uigradients.com](uigradients.com)
 
 ## Demo
 
