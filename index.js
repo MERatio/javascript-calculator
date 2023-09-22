@@ -1,5 +1,17 @@
 'use strict';
 
+const dom = {
+	displayText: document.querySelector('.display-text'),
+	numbers: document.querySelectorAll('.number'),
+	updateDisplayText(str) {
+		if (this.displayText.textContent === '0') {
+			this.displayText.textContent = str;
+		} else {
+			this.displayText.textContent += str;
+		}
+	},
+};
+
 let operator = '*';
 let firstNumber = 2;
 let secondNumber = 6;
@@ -24,4 +36,9 @@ function operate(operator, a, b) {
 	}
 }
 
-console.log(operate(operator, firstNumber, secondNumber));
+dom.numbers.forEach((number) => {
+	number.addEventListener('click', (e) => {
+		const key = e.currentTarget.dataset.key;
+		dom.updateDisplayText(key);
+	});
+});

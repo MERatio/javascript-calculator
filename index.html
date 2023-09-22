@@ -18,28 +18,32 @@
 		<div class="container">
 			<main class="calculator">
 				<div class="display-container">
-					<div class="display">0</div>
+					<div class="display">
+						<span class="display-text">0</span>
+					</div>
 				</div>
 				<div class="keys">
 					<button type="button" class="key bg-red ac">AC</button>
 					<button type="button" class="key bg-red backspace">&#9003;</button>
 					<button type="button" class="key operator">&div;</button>
 					<button type="button" class="key operator">&times;</button>
-					<button type="button" class="key number">7</button>
-					<button type="button" class="key number">8</button>
-					<button type="button" class="key number">9</button>
+					<button type="button" class="key number" data-key="7">7</button>
+					<button type="button" class="key number" data-key="8">8</button>
+					<button type="button" class="key number" data-key="9">9</button>
 					<button type="button" class="key operator">&minus;</button>
-					<button type="button" class="key number">4</button>
-					<button type="button" class="key number">5</button>
-					<button type="button" class="key number">6</button>
+					<button type="button" class="key number" data-key="4">4</button>
+					<button type="button" class="key number" data-key="5">5</button>
+					<button type="button" class="key number" data-key="6">6</button>
 					<button type="button" class="key operator">&plus;</button>
-					<button type="button" class="key number">1</button>
-					<button type="button" class="key number">2</button>
-					<button type="button" class="key number">3</button>
+					<button type="button" class="key number" data-key="1">1</button>
+					<button type="button" class="key number" data-key="2">2</button>
+					<button type="button" class="key number" data-key="3">3</button>
 					<button type="button" class="key operator" id="equals">
 						&equals;
 					</button>
-					<button type="button" class="key number" id="zero">0</button>
+					<button type="button" class="key number" id="zero" data-key="0">
+						0
+					</button>
 					<button type="button" class="key number">&middot;</button>
 				</div>
 			</main>
