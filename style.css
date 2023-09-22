@@ -1,0 +1,115 @@
+@font-face {
+	font-family: 'DS-Digital';
+	src: url('./ds_digital/DS-DIGI.TTF');
+}
+
+html {
+	box-sizing: border-box;
+}
+
+body {
+	height: 100vh;
+	background: linear-gradient(to top, #141e30, #243b55);
+	margin: 0;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+.bg-red {
+	background-color: #e4312a;
+}
+
+.container {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.calculator {
+	padding: 20px;
+	background-color: #24261d;
+	border-radius: 5px;
+	box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.75);
+}
+
+.display-container {
+	background-color: #2c2922;
+	padding: 10px;
+	margin-bottom: 15px;
+}
+
+.display {
+	font-family: 'DS-Digital', monospace;
+	font-size: 45px;
+	text-align: right;
+	color: #b9fdfb;
+	text-shadow: 0px 0px 5px #29c9cd;
+	padding: 5px 10px;
+	background-color: #322e2a;
+}
+
+.keys {
+	padding: 10px;
+	background-color: #bea493;
+	display: grid;
+	grid-template-columns: repeat(4, 60px);
+	grid-template-rows: repeat(5, 45px);
+	gap: 10px;
+}
+
+.key {
+	font-family: 'Share Tech Mono', monospace;
+	font-size: 25px;
+	color: #ddcbbf;
+	border: 3px solid #1e0f06;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.key:hover {
+	filter: brightness(1.2);
+}
+
+.key:active {
+	transform: translateY(1px);
+}
+
+.number {
+	background-color: #2c2217;
+}
+
+.operator {
+	background-color: #696f6f;
+}
+
+.ac {
+	font-size: 20px;
+}
+
+.backspace {
+	font-size: 28px;
+}
+
+#equals {
+	grid-row: span 2;
+}
+
+#zero {
+	grid-column: span 2;
+}
+
+@media screen and (max-width: 375px), screen and (max-height: 450px) {
+	.display {
+		font-size: 40px;
+	}
+
+	.keys {
+		grid-template-columns: repeat(4, 50px);
+		grid-template-rows: repeat(5, 35px);
+	}
+}
