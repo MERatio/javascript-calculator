@@ -177,10 +177,7 @@ dom.equals.addEventListener('click', () => {
 		return;
 	}
 
-	const displayText = dom.displayText.textContent;
-	secondNumber = Number.parseFloat(displayText);
 	const result = operate(operator, firstNumber, secondNumber);
-
 	if (result === Infinity) {
 		init();
 		hasError = true;
