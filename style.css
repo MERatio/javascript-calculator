@@ -92,7 +92,8 @@ body {
 	filter: brightness(1.8);
 }
 
-.number {
+.number,
+.decimal-point {
 	background-color: #2c2217;
 }
 
