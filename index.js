@@ -29,6 +29,7 @@ let firstNumber;
 let operator;
 let secondNumber;
 let resultComputedWithEquals;
+let hasError;
 
 const operations = {
 	add: (a, b) => a + b,
@@ -72,6 +73,7 @@ function init() {
 	operator = null;
 	secondNumber = null;
 	resultComputedWithEquals = false;
+	hasError = false;
 	dom.displayText.textContent = '0';
 	const activateOperator = document.querySelector('.active-operator');
 	if (activateOperator) {
@@ -82,17 +84,18 @@ function init() {
 dom.allClear.addEventListener('click', init);
 
 dom.backspace.addEventListener('click', () => {
-	const displayText = dom.displayText.textContent;
-
-	if (displayText === '0') {
-		return;
-	}
-
 	if (
 		(operator !== null && secondNumber === null) ||
+		hasError ||
 		resultComputedWithEquals
 	) {
 		init();
+		return;
+	}
+
+	const displayText = dom.displayText.textContent;
+
+	if (displayText === '0') {
 		return;
 	}
 
@@ -111,6 +114,10 @@ dom.backspace.addEventListener('click', () => {
 
 dom.operators.forEach((domOperator) => {
 	domOperator.addEventListener('click', (e) => {
+		if (hasError) {
+			return;
+		}
+
 		const key = e.currentTarget.dataset.key;
 
 		if (operator === null && secondNumber === null) {
@@ -118,17 +125,27 @@ dom.operators.forEach((domOperator) => {
 			dom.activateOperator(key);
 		} else if (operator !== null && secondNumber !== null) {
 			const result = operate(operator, firstNumber, secondNumber);
-			dom.updateDisplayText(result);
-			firstNumber = result;
-			operator = key;
-			dom.activateOperator(key);
-			secondNumber = null;
+			if (result === Infinity) {
+				init();
+				hasError = true;
+				dom.updateDisplayText('ERROR');
+			} else {
+				dom.updateDisplayText(result);
+				firstNumber = result;
+				operator = key;
+				dom.activateOperator(key);
+				secondNumber = null;
+			}
 		}
 	});
 });
 
 dom.numbers.forEach((domNumber) => {
 	domNumber.addEventListener('click', (e) => {
+		if (hasError) {
+			return;
+		}
+
 		const key = e.currentTarget.dataset.key;
 		const newDisplayText = determineNewDisplayText(key);
 		const newNumber = Number.parseFloat(newDisplayText);
@@ -145,16 +162,26 @@ dom.numbers.forEach((domNumber) => {
 });
 
 dom.equals.addEventListener('click', () => {
+	if (hasError) {
+		return;
+	}
+
 	if (operator !== null && secondNumber !== null) {
 		const displayText = dom.displayText.textContent;
 		secondNumber = Number.parseFloat(displayText);
 		const result = operate(operator, firstNumber, secondNumber);
-		firstNumber = result;
-		operator = null;
-		dom.activateOperator(operator);
-		secondNumber = null;
-		dom.updateDisplayText(result);
-		resultComputedWithEquals = true;
+		if (result === Infinity) {
+			init();
+			hasError = true;
+			dom.updateDisplayText('ERROR');
+		} else {
+			firstNumber = result;
+			operator = null;
+			dom.activateOperator(operator);
+			secondNumber = null;
+			dom.updateDisplayText(result);
+			resultComputedWithEquals = true;
+		}
 	}
 });
 
