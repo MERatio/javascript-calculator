@@ -3,6 +3,7 @@
 const dom = {
 	display: document.querySelector('.display'),
 	displayText: document.querySelector('.display-text'),
+	allClear: document.querySelector('.all-clear'),
 	operators: document.querySelectorAll('.operator'),
 	numbers: document.querySelectorAll('.number'),
 	activateOperator(operator) {
@@ -23,10 +24,10 @@ const dom = {
 	equals: document.querySelector('.equals'),
 };
 
-let firstNumber = 0;
-let operator = null;
-let secondNumber = null;
-let resultComputedWithEquals = false;
+let firstNumber;
+let operator;
+let secondNumber;
+let resultComputedWithEquals;
 
 const operations = {
 	add: (a, b) => a + b,
@@ -64,6 +65,20 @@ function determineNewDisplayText(key) {
 
 	return newDisplayText;
 }
+
+function init() {
+	firstNumber = 0;
+	operator = null;
+	secondNumber = null;
+	resultComputedWithEquals = false;
+	dom.displayText.textContent = '0';
+	const activateOperator = document.querySelector('.active-operator');
+	if (activateOperator) {
+		activateOperator.classList.remove('active-operator');
+	}
+}
+
+dom.allClear.addEventListener('click', init);
 
 dom.operators.forEach((domOperator) => {
 	domOperator.addEventListener('click', (e) => {
@@ -113,3 +128,5 @@ dom.equals.addEventListener('click', () => {
 		resultComputedWithEquals = true;
 	}
 });
+
+init();
