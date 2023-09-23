@@ -25,6 +25,9 @@ const dom = {
 	equals: document.querySelector('.equals'),
 };
 
+let mode;
+let canPressOperator;
+let canPressEquals;
 let firstNumber;
 let operator;
 let secondNumber;
@@ -56,8 +59,8 @@ function determineNewDisplayText(key) {
 	let newDisplayText;
 	if (
 		displayText === '0' ||
-		resultComputedWithEquals ||
-		(operator !== null && secondNumber === null)
+		(operator !== null && secondNumber === null) ||
+		resultComputedWithEquals
 	) {
 		newDisplayText = key;
 		resultComputedWithEquals = false;
@@ -69,6 +72,9 @@ function determineNewDisplayText(key) {
 }
 
 function init() {
+	mode = 'insert first number';
+	canPressOperator = true;
+	canPressEquals = false;
 	firstNumber = 0;
 	operator = null;
 	secondNumber = null;
@@ -89,8 +95,7 @@ dom.backspace.addEventListener('click', () => {
 		hasError ||
 		resultComputedWithEquals
 	) {
-		init();
-		return;
+		return init();
 	}
 
 	const displayText = dom.displayText.textContent;
@@ -104,7 +109,7 @@ dom.backspace.addEventListener('click', () => {
 		newDisplayText = '0';
 	}
 	const newNumber = Number.parseFloat(newDisplayText);
-	if (operator === null) {
+	if (mode === 'insert first number') {
 		firstNumber = newNumber;
 	} else {
 		secondNumber = newNumber;
@@ -114,29 +119,33 @@ dom.backspace.addEventListener('click', () => {
 
 dom.operators.forEach((domOperator) => {
 	domOperator.addEventListener('click', (e) => {
-		if (hasError) {
+		if (hasError || !canPressOperator) {
 			return;
 		}
 
 		const key = e.currentTarget.dataset.key;
 
-		if (operator === null && secondNumber === null) {
+		if (mode === 'insert first number') {
 			operator = key;
 			dom.activateOperator(key);
-		} else if (operator !== null && secondNumber !== null) {
+			mode = 'insert second number';
+		} else if (mode === 'insert second number') {
 			const result = operate(operator, firstNumber, secondNumber);
 			if (result === Infinity) {
 				init();
 				hasError = true;
 				dom.updateDisplayText('ERROR');
 			} else {
-				dom.updateDisplayText(result);
 				firstNumber = result;
+				dom.updateDisplayText(result);
 				operator = key;
 				dom.activateOperator(key);
 				secondNumber = null;
+				canPressEquals = false;
 			}
 		}
+
+		canPressOperator = false;
 	});
 });
 
@@ -150,11 +159,13 @@ dom.numbers.forEach((domNumber) => {
 		const newDisplayText = determineNewDisplayText(key);
 		const newNumber = Number.parseFloat(newDisplayText);
 
-		if (operator === null || resultComputedWithEquals) {
+		if (mode === 'insert first number' || resultComputedWithEquals) {
 			firstNumber = newNumber;
 			resultComputedWithEquals = false;
 		} else {
 			secondNumber = newNumber;
+			canPressOperator = true;
+			canPressEquals = true;
 		}
 
 		dom.updateDisplayText(newDisplayText);
@@ -162,27 +173,30 @@ dom.numbers.forEach((domNumber) => {
 });
 
 dom.equals.addEventListener('click', () => {
-	if (hasError) {
+	if (hasError || !canPressEquals) {
 		return;
 	}
 
-	if (operator !== null && secondNumber !== null) {
-		const displayText = dom.displayText.textContent;
-		secondNumber = Number.parseFloat(displayText);
-		const result = operate(operator, firstNumber, secondNumber);
-		if (result === Infinity) {
-			init();
-			hasError = true;
-			dom.updateDisplayText('ERROR');
-		} else {
-			firstNumber = result;
-			operator = null;
-			dom.activateOperator(operator);
-			secondNumber = null;
-			dom.updateDisplayText(result);
-			resultComputedWithEquals = true;
-		}
+	const displayText = dom.displayText.textContent;
+	secondNumber = Number.parseFloat(displayText);
+	const result = operate(operator, firstNumber, secondNumber);
+
+	if (result === Infinity) {
+		init();
+		hasError = true;
+		dom.updateDisplayText('ERROR');
+	} else {
+		firstNumber = result;
+		operator = null;
+		dom.activateOperator(operator);
+		secondNumber = null;
+		dom.updateDisplayText(result);
+		resultComputedWithEquals = true;
 	}
+
+	mode = 'insert first number';
+	canPressOperator = true;
+	canPressEquals = false;
 });
 
 init();
