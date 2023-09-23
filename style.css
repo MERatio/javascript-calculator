@@ -89,7 +89,7 @@ body {
 }
 
 .active-operator {
-	filter: brightness(1.8);
+	filter: brightness(1.8) !important;
 }
 
 .number,
