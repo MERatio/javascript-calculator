@@ -4,6 +4,7 @@ const dom = {
 	display: document.querySelector('.display'),
 	displayText: document.querySelector('.display-text'),
 	allClear: document.querySelector('.all-clear'),
+	backspace: document.querySelector('.backspace'),
 	operators: document.querySelectorAll('.operator'),
 	numbers: document.querySelectorAll('.number'),
 	activateOperator(operator) {
@@ -79,6 +80,34 @@ function init() {
 }
 
 dom.allClear.addEventListener('click', init);
+
+dom.backspace.addEventListener('click', () => {
+	const displayText = dom.displayText.textContent;
+
+	if (displayText === '0') {
+		return;
+	}
+
+	if (
+		(operator !== null && secondNumber === null) ||
+		resultComputedWithEquals
+	) {
+		init();
+		return;
+	}
+
+	let newDisplayText = displayText.slice(0, -1);
+	if (newDisplayText === '') {
+		newDisplayText = '0';
+	}
+	const newNumber = Number.parseFloat(newDisplayText);
+	if (operator === null) {
+		firstNumber = newNumber;
+	} else {
+		secondNumber = newNumber;
+	}
+	dom.updateDisplayText(newDisplayText);
+});
 
 dom.operators.forEach((domOperator) => {
 	domOperator.addEventListener('click', (e) => {
