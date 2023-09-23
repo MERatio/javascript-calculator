@@ -51,7 +51,7 @@ body {
 .display {
 	padding: 5px 10px;
 	background-color: #322e2a;
-	direction: rtl;
+	text-align: right;
 	overflow-x: scroll;
 }
 
@@ -86,6 +86,10 @@ body {
 
 .key:active {
 	transform: translateY(1px);
+}
+
+.active-operator {
+	filter: brightness(1.8);
 }
 
 .number {
