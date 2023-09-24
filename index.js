@@ -239,4 +239,12 @@ dom.equals.addEventListener('click', () => {
 
 dom.decimalPoint.addEventListener('click', handleNumberAndDecimalPointClick);
 
+window.addEventListener('keydown', (e) => {
+	const key = e.key === 'Enter' ? '=' : e.key;
+	const domKey = document.querySelector(`[data-key="${key}"]`);
+	if (domKey) {
+		domKey.click();
+	}
+});
+
 init();
