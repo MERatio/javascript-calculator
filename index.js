@@ -7,6 +7,8 @@ const dom = {
 	backspace: document.querySelector('.backspace'),
 	operators: document.querySelectorAll('.operator'),
 	numbers: document.querySelectorAll('.number'),
+	equals: document.querySelector('.equals'),
+	decimalPoint: document.querySelector('.decimal-point'),
 	activateOperator(operator) {
 		const domPrevActiveOperator = document.querySelector('.operator.active');
 		const domOperator = document.querySelector(`[data-key="${operator}"]`);
@@ -22,8 +24,6 @@ const dom = {
 		// Make the scroll flush to the right
 		this.display.scrollLeft = this.display.scrollWidth;
 	},
-	equals: document.querySelector('.equals'),
-	decimalPoint: document.querySelector('.decimal-point'),
 };
 
 let mode;
@@ -35,6 +35,23 @@ let operator;
 let secondNumber;
 let resultComputedWithEquals;
 let hasError;
+
+function init() {
+	mode = 'insert first number';
+	canPressOperator = true;
+	canPressEquals = false;
+	canPressDecimalPoint = true;
+	firstNumber = 0;
+	operator = null;
+	secondNumber = null;
+	resultComputedWithEquals = false;
+	hasError = false;
+	dom.displayText.textContent = '0';
+	const activeOperator = document.querySelector('.operator.active');
+	if (activeOperator) {
+		activeOperator.classList.remove('active');
+	}
+}
 
 const operations = {
 	add: (a, b) => a + b,
@@ -106,23 +123,6 @@ function handleNumberAndDecimalPointClick(e) {
 	}
 
 	dom.updateDisplayText(newDisplayText);
-}
-
-function init() {
-	mode = 'insert first number';
-	canPressOperator = true;
-	canPressEquals = false;
-	canPressDecimalPoint = true;
-	firstNumber = 0;
-	operator = null;
-	secondNumber = null;
-	resultComputedWithEquals = false;
-	hasError = false;
-	dom.displayText.textContent = '0';
-	const activeOperator = document.querySelector('.operator.active');
-	if (activeOperator) {
-		activeOperator.classList.remove('active');
-	}
 }
 
 dom.allClear.addEventListener('click', init);
