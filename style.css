@@ -1,4 +1,5 @@
 @font-face {
+	/* https://www.dafont.com/ds-digital.font */
 	font-family: 'DS-Digital';
 	src: url('./ds_digital/DS-DIGI.TTF');
 }
@@ -9,6 +10,7 @@ html {
 
 body {
 	height: 100vh;
+	/* https://uigradients.com/#Royal */
 	background: linear-gradient(to top, #141e30, #243b55);
 	margin: 0;
 }
