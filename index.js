@@ -8,13 +8,13 @@ const dom = {
 	operators: document.querySelectorAll('.operator'),
 	numbers: document.querySelectorAll('.number'),
 	activateOperator(operator) {
-		const prevActiveDomOperator = document.querySelector('.active-operator');
+		const domPrevActiveOperator = document.querySelector('.operator.active');
 		const domOperator = document.querySelector(`[data-key="${operator}"]`);
-		if (prevActiveDomOperator) {
-			prevActiveDomOperator.classList.remove('active-operator');
+		if (domPrevActiveOperator) {
+			domPrevActiveOperator.classList.remove('active');
 		}
 		if (domOperator) {
-			domOperator.classList.add('active-operator');
+			domOperator.classList.add('active');
 		}
 	},
 	updateDisplayText(text) {
@@ -119,9 +119,9 @@ function init() {
 	resultComputedWithEquals = false;
 	hasError = false;
 	dom.displayText.textContent = '0';
-	const activateOperator = document.querySelector('.active-operator');
-	if (activateOperator) {
-		activateOperator.classList.remove('active-operator');
+	const activeOperator = document.querySelector('.operator.active');
+	if (activeOperator) {
+		activeOperator.classList.remove('active');
 	}
 }
 

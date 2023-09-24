@@ -88,10 +88,6 @@ body {
 	transform: translateY(1px);
 }
 
-.active-operator {
-	filter: brightness(1.8) !important;
-}
-
 .number,
 .decimal-point {
 	background-color: #2c2217;
@@ -111,6 +107,10 @@ body {
 
 .zero {
 	grid-column: span 2;
+}
+
+.active {
+	filter: brightness(1.8) !important;
 }
 
 @media screen and (max-width: 375px), screen and (max-height: 450px) {
