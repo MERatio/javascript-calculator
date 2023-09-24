@@ -188,13 +188,6 @@ dom.operators.forEach((domOperator) => {
 				dom.activateOperator(key);
 				secondNumber = null;
 				canPressEquals = false;
-				if (result.toString().includes('.')) {
-					canPressDecimalPoint = false;
-					dom.activateDecimalPoint(true);
-				} else {
-					canPressDecimalPoint = true;
-					dom.activateDecimalPoint(false);
-				}
 			}
 		}
 
@@ -228,13 +221,8 @@ dom.equals.addEventListener('click', () => {
 	mode = 'insert first number';
 	canPressOperator = true;
 	canPressEquals = false;
-	if (result.toString().includes('.')) {
-		canPressDecimalPoint = false;
-		dom.activateDecimalPoint(true);
-	} else {
-		canPressDecimalPoint = true;
-		dom.activateDecimalPoint(false);
-	}
+	canPressDecimalPoint = true;
+	dom.activateDecimalPoint(false);
 });
 
 dom.decimalPoint.addEventListener('click', handleNumberAndDecimalPointClick);
