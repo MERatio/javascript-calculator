@@ -23,11 +23,13 @@ const dom = {
 		this.display.scrollLeft = this.display.scrollWidth;
 	},
 	equals: document.querySelector('.equals'),
+	decimalPoint: document.querySelector('.decimal-point'),
 };
 
 let mode;
 let canPressOperator;
 let canPressEquals;
+let canPressDecimalPoint;
 let firstNumber;
 let operator;
 let secondNumber;
@@ -57,24 +59,60 @@ function operate(operator, a, b) {
 function determineNewDisplayText(key) {
 	const displayText = document.querySelector('.display-text').textContent;
 	let newDisplayText;
-	if (
-		displayText === '0' ||
-		(operator !== null && secondNumber === null) ||
-		resultComputedWithEquals
-	) {
-		newDisplayText = key;
-		resultComputedWithEquals = false;
+
+	if (key === '.') {
+		if (
+			displayText === '0' ||
+			(mode === 'insert second number' && secondNumber === null)
+		) {
+			newDisplayText = '0.';
+		} else {
+			newDisplayText = displayText + '.';
+		}
+		canPressDecimalPoint = false;
 	} else {
-		newDisplayText = dom.displayText.textContent + key;
+		if (
+			displayText === '0' ||
+			(operator !== null && secondNumber === null) ||
+			resultComputedWithEquals
+		) {
+			newDisplayText = key;
+			resultComputedWithEquals = false;
+		} else {
+			newDisplayText = dom.displayText.textContent + key;
+		}
 	}
 
 	return newDisplayText;
+}
+
+function handleNumberAndDecimalPointClick(e) {
+	const key = e.currentTarget.dataset.key;
+
+	if (hasError || (key === '.' && !canPressDecimalPoint)) {
+		return;
+	}
+
+	const newDisplayText = determineNewDisplayText(key);
+	const newNumber = Number.parseFloat(newDisplayText);
+
+	if (mode === 'insert first number' || resultComputedWithEquals) {
+		firstNumber = newNumber;
+		resultComputedWithEquals = false;
+	} else {
+		secondNumber = newNumber;
+		canPressOperator = true;
+		canPressEquals = true;
+	}
+
+	dom.updateDisplayText(newDisplayText);
 }
 
 function init() {
 	mode = 'insert first number';
 	canPressOperator = true;
 	canPressEquals = false;
+	canPressDecimalPoint = true;
 	firstNumber = 0;
 	operator = null;
 	secondNumber = null;
@@ -104,6 +142,10 @@ dom.backspace.addEventListener('click', () => {
 		return;
 	}
 
+	if (displayText[displayText.length - 1] === '.') {
+		canPressDecimalPoint = true;
+	}
+
 	let newDisplayText = displayText.slice(0, -1);
 	if (newDisplayText === '') {
 		newDisplayText = '0';
@@ -129,6 +171,7 @@ dom.operators.forEach((domOperator) => {
 			operator = key;
 			dom.activateOperator(key);
 			mode = 'insert second number';
+			canPressDecimalPoint = true;
 		} else if (mode === 'insert second number') {
 			const result = operate(operator, firstNumber, secondNumber);
 			if (result === Infinity) {
@@ -142,6 +185,11 @@ dom.operators.forEach((domOperator) => {
 				dom.activateOperator(key);
 				secondNumber = null;
 				canPressEquals = false;
+				if (result.toString().includes('.')) {
+					canPressDecimalPoint = false;
+				} else {
+					canPressDecimalPoint = true;
+				}
 			}
 		}
 
@@ -150,26 +198,7 @@ dom.operators.forEach((domOperator) => {
 });
 
 dom.numbers.forEach((domNumber) => {
-	domNumber.addEventListener('click', (e) => {
-		if (hasError) {
-			return;
-		}
-
-		const key = e.currentTarget.dataset.key;
-		const newDisplayText = determineNewDisplayText(key);
-		const newNumber = Number.parseFloat(newDisplayText);
-
-		if (mode === 'insert first number' || resultComputedWithEquals) {
-			firstNumber = newNumber;
-			resultComputedWithEquals = false;
-		} else {
-			secondNumber = newNumber;
-			canPressOperator = true;
-			canPressEquals = true;
-		}
-
-		dom.updateDisplayText(newDisplayText);
-	});
+	domNumber.addEventListener('click', handleNumberAndDecimalPointClick);
 });
 
 dom.equals.addEventListener('click', () => {
@@ -194,6 +223,13 @@ dom.equals.addEventListener('click', () => {
 	mode = 'insert first number';
 	canPressOperator = true;
 	canPressEquals = false;
+	if (result.toString().includes('.')) {
+		canPressDecimalPoint = false;
+	} else {
+		canPressDecimalPoint = true;
+	}
 });
+
+dom.decimalPoint.addEventListener('click', handleNumberAndDecimalPointClick);
 
 init();
