@@ -77,27 +77,15 @@ function determineNewDisplayText(key) {
 	const displayText = document.querySelector('.display-text').textContent;
 	let newDisplayText;
 
-	if (key === '.') {
-		if (
-			displayText === '0' ||
-			(mode === 'insert second number' && secondNumber === null)
-		) {
-			newDisplayText = '0.';
-		} else {
-			newDisplayText = displayText + '.';
-		}
-		canPressDecimalPoint = false;
+	if (
+		displayText === '0' ||
+		(mode === 'insert second number' && secondNumber === null) ||
+		resultComputedWithEquals
+	) {
+		newDisplayText = key === '.' ? '0.' : key;
+		resultComputedWithEquals = false;
 	} else {
-		if (
-			displayText === '0' ||
-			(operator !== null && secondNumber === null) ||
-			resultComputedWithEquals
-		) {
-			newDisplayText = key;
-			resultComputedWithEquals = false;
-		} else {
-			newDisplayText = dom.displayText.textContent + key;
-		}
+		newDisplayText = dom.displayText.textContent + key;
 	}
 
 	return newDisplayText;
@@ -120,6 +108,10 @@ function handleNumberAndDecimalPointClick(e) {
 		secondNumber = newNumber;
 		canPressOperator = true;
 		canPressEquals = true;
+	}
+
+	if (key === '.') {
+		canPressDecimalPoint = false;
 	}
 
 	dom.updateDisplayText(newDisplayText);
