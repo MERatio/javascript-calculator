@@ -19,6 +19,13 @@ const dom = {
 			domOperator.classList.add('active');
 		}
 	},
+	activateDecimalPoint(activate) {
+		if (activate) {
+			this.decimalPoint.classList.add('active');
+		} else {
+			this.decimalPoint.classList.remove('active');
+		}
+	},
 	updateDisplayText(text) {
 		this.displayText.textContent = text;
 		// Make the scroll flush to the right
@@ -51,6 +58,7 @@ function init() {
 	if (activeOperator) {
 		activeOperator.classList.remove('active');
 	}
+	dom.decimalPoint.classList.remove('active');
 }
 
 const operations = {
@@ -112,6 +120,7 @@ function handleNumberAndDecimalPointClick(e) {
 
 	if (key === '.') {
 		canPressDecimalPoint = false;
+		dom.activateDecimalPoint(true);
 	}
 
 	dom.updateDisplayText(newDisplayText);
@@ -136,6 +145,7 @@ dom.backspace.addEventListener('click', () => {
 
 	if (displayText[displayText.length - 1] === '.') {
 		canPressDecimalPoint = true;
+		dom.activateDecimalPoint(false);
 	}
 
 	let newDisplayText = displayText.slice(0, -1);
@@ -164,6 +174,7 @@ dom.operators.forEach((domOperator) => {
 			dom.activateOperator(key);
 			mode = 'insert second number';
 			canPressDecimalPoint = true;
+			dom.activateDecimalPoint(false);
 		} else if (mode === 'insert second number') {
 			const result = operate(operator, firstNumber, secondNumber);
 			if (result === Infinity) {
@@ -179,8 +190,10 @@ dom.operators.forEach((domOperator) => {
 				canPressEquals = false;
 				if (result.toString().includes('.')) {
 					canPressDecimalPoint = false;
+					dom.activateDecimalPoint(true);
 				} else {
 					canPressDecimalPoint = true;
+					dom.activateDecimalPoint(false);
 				}
 			}
 		}
@@ -217,8 +230,10 @@ dom.equals.addEventListener('click', () => {
 	canPressEquals = false;
 	if (result.toString().includes('.')) {
 		canPressDecimalPoint = false;
+		dom.activateDecimalPoint(true);
 	} else {
 		canPressDecimalPoint = true;
+		dom.activateDecimalPoint(false);
 	}
 });
 
