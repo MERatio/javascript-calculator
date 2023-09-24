@@ -31,6 +31,12 @@ const dom = {
 		// Make the scroll flush to the right
 		this.display.scrollLeft = this.display.scrollWidth;
 	},
+	blurKeys() {
+		const keys = document.querySelectorAll('.key');
+		for (const key of keys) {
+			key.blur();
+		}
+	},
 };
 
 let mode;
@@ -59,6 +65,7 @@ function init() {
 		activeOperator.classList.remove('active');
 	}
 	dom.decimalPoint.classList.remove('active');
+	dom.blurKeys();
 }
 
 const operations = {
@@ -192,6 +199,7 @@ dom.operators.forEach((domOperator) => {
 		}
 
 		canPressOperator = false;
+		dom.blurKeys();
 	});
 });
 
@@ -223,6 +231,7 @@ dom.equals.addEventListener('click', () => {
 	canPressEquals = false;
 	canPressDecimalPoint = true;
 	dom.activateDecimalPoint(false);
+	dom.blurKeys();
 });
 
 dom.decimalPoint.addEventListener('click', handleNumberAndDecimalPointClick);
